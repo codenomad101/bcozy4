@@ -23,9 +23,9 @@ const userSchema = new mongoose.Schema(
     },
     notes: [
       {
-        noteName: { type: String },
         title: { type: String },
-        description: { type: String },
+        content: { type: String },
+        createdAt: { type: Date, default: Date.now },
       },
       { timestamps: true },
     ],

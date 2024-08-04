@@ -1,11 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
+import Register from "./components/Register";
+import Login from "./components/Login";
 
 function App() {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [role, setRole] = useState("");
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [notes, setNotes] = useState([]);
@@ -13,37 +11,6 @@ function App() {
 
   const API_URL = "http://localhost:5000";
   const [isLoggedIn, setIsLoggedIn] = useState();
-
-  const register = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post(`${API_URL}/register`, {
-        username,
-        email,
-        password,
-        role,
-      });
-      localStorage.setItem("token", response.data.token);
-      setMessage("Registration successful");
-      setIsLoggedIn(true);
-    } catch (error) {
-      setMessage("Registration failed");
-    }
-  };
-
-  const login = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post(`${API_URL}/login`, {
-        username,
-        password,
-      });
-      localStorage.setItem("token", response.data.token);
-      setMessage("Login successful");
-    } catch (error) {
-      setMessage("Login failed");
-    }
-  };
 
   const createNote = async (e) => {
     e.preventDefault();
@@ -75,36 +42,12 @@ function App() {
 
   return (
     <div>
-      <h1>User Registration and Notes</h1>
+      <h1>User Registration</h1>
       {!isLoggedIn && (
-        <form>
-          <input
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Role"
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-          />
-          <button onClick={register}>Register</button>
-          {/* <button onClick={login}>Login</button> */}
-        </form>
+        <>
+          <Register setMessage={setMessage} setIsLoggedIn={setIsLoggedIn} />
+          <Login setMessage={setMessage} setIsLoggedIn={setIsLoggedIn} />
+        </>
       )}
       {isLoggedIn && (
         <form>
